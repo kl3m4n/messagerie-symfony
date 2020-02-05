@@ -16,33 +16,34 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
         
         $usr = new User();
-        $usr->setUsername('Clement');
-        $usr->setEmail('clement.ramos@gmail.com');
-        $usr->setPassword('motdepasse');
-        $usr->setPhoto('default.png');
+        $usr -> setUsername('Clement');
+        $usr -> setRoles(['user']);
+        $usr -> setEmail('clement.ramos@gmail.com');
+        $usr -> setPassword('motdepasse');
+        $usr -> setImg('default.png');
         
-        $manager->persist($usr);
+        $manager -> persist($usr);
 
         for($i = 0; $i < 2; $i++) {
                 $grp = new Groupe();
-                $grp->setNom('Groupe ' . $i);
-                $grp->setPhoto('default.png');
-                $grp->setDate(new \DateTime('now'));
+                $grp -> setName('Groupe ' . $i);
+                $grp -> setImg('default.png');
+                $grp -> setDate(new \DateTime('now'));
 
-                $manager->persist($grp);
+                $manager -> persist($grp);
 
 
             for($j = 0; $j < 5; $j++) {
                 $msg = new Message();
-                $msg->setGroupe($grp);
-                $msg->setUser($usr);
-                $msg->setContent("Ceci est le contenu du message numéro " . $i);
-                $msg->setDate(new \DateTime('now'));
-                $msg->setState(1);
+                $msg -> setGroupe($grp);
+                $msg -> setUser($usr);
+                $msg -> setContent("Ceci est le contenu du message numéro " . $i);
+                $msg -> setDate(new \DateTime('now'));
+                $msg -> setState(1);
 
-                $manager->persist($msg);
+                $manager -> persist($msg);
             }
         }
-        $manager->flush();
+        $manager -> flush();
     }
 }
