@@ -19,17 +19,17 @@ class Groupe
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
-    private $nom;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $photo;
+    private $img;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $date;
 
@@ -37,6 +37,11 @@ class Groupe
      * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="groupes")
      */
     private $users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="groupes")
+     */
+    private $user_p;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="groupe")
@@ -54,26 +59,26 @@ class Groupe
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
-        return $this->nom;
+        return $this->name;
     }
 
-    public function setNom(string $nom): self
+    public function setName(string $name): self
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getImg(): ?string
     {
-        return $this->photo;
+        return $this->img;
     }
 
-    public function setPhoto(string $photo): self
+    public function setImg(string $img): self
     {
-        $this->photo = $photo;
+        $this->img = $img;
 
         return $this;
     }
@@ -112,6 +117,18 @@ class Groupe
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
         }
+
+        return $this;
+    }
+
+    public function getUserP(): ?User
+    {
+        return $this->user_p;
+    }
+
+    public function setUserP(?User $user_p): self
+    {
+        $this->user_p = $user_p;
 
         return $this;
     }
