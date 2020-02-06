@@ -20,10 +20,12 @@
 	<div
 		class="example-wrapper">
 
-		{# {{ messages }} #}
-
+		<ul>
 		{% for msg in messages %}
-			{{ msg.content }}
+			<li>
+				{{ msg.content }}
+			</li>
 		{% endfor %}
+		</ul>
 	</div>
 {% endblock %}

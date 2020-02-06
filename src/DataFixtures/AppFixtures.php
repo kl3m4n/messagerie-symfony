@@ -16,10 +16,10 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
         
         $usr = new User();
-        $usr -> setUsername('Clement');
-        $usr -> setRoles(['user']);
+        $usr -> setUsername('to');
+        // $usr -> setRoles('ROLE_USER');
         $usr -> setEmail('clement.ramos@gmail.com');
-        $usr -> setPassword('motdepasse');
+        $usr -> setPassword('$2y$13$CjtAPpz55FQhDJSGgfr7VupE15RBp9NXCqLYzxf18HJf6B9.CvooK');
         $usr -> setImg('default.png');
         
         $manager -> persist($usr);
@@ -27,6 +27,7 @@ class AppFixtures extends Fixture
         for($i = 0; $i < 2; $i++) {
                 $grp = new Groupe();
                 $grp -> setName('Groupe ' . $i);
+                $grp -> setUserP($usr);
                 $grp -> setImg('default.png');
                 $grp -> setDate(new \DateTime('now'));
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Groupe;
 use App\Entity\Message;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,6 @@ class GroupeController extends AbstractController
         $repo = $this -> getDoctrine() -> getRepository(Message::class);
         $messages = $repo -> findBy(['groupe' => $id]);
 
-
         return $this -> render('groupe/groupe.html.twig', [
             'messages' => $messages
         ]);
@@ -27,9 +27,13 @@ class GroupeController extends AbstractController
      * @Route("/groupes", name="groupes")
      */
     public function groupes() {
-        $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
-        $groupes = $repo -> findAll();
+        // $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
+        // $groupes = $repo -> findAll();
 
+        $rep = $this->getDoctrine()->getRepository(User::class);
+        $id = $this->getUser()->getId();
+        $groupes = $rep -> find($id) -> getGroupes();
+        
         return $this -> render('groupe/index.html.twig', [
             'groupes' => $groupes
         ]);
