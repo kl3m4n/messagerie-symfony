@@ -12,9 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class GroupeController extends AbstractController
 {
     /**
-     * @Route("/groupe/{id}", name="groupe")
+     * @Route("/groupes", name="groupe")
      */
-    public function groupe($id = '3')
+    public function groupes($id = '3')
     {
         $repo = $this -> getDoctrine() -> getRepository(Message::class);
         $messages = $repo -> findBy(['groupe' => $id]);
@@ -25,18 +25,22 @@ class GroupeController extends AbstractController
     }
 
     /**
-     * @Route("/groupes", name="groupes")
+     * @Route("/groupe/{id}", name="groupes")
      */
-    public function groupes() {
-        // $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
-        // $groupes = $repo -> findAll();
+    public function groupe($id = 3) {
+
+        $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
+        $messages = $repo -> find($id) -> getMessages();
+
+        // dd($messages);
 
         $rep = $this -> getDoctrine() -> getRepository(User::class);
-        $id = $this -> getUser() -> getId();
-        $groupes = $rep -> find($id) -> getGroupes();
+        $iid = $this -> getUser() -> getId();
+        $groupes = $rep -> find($iid) -> getGroupes();
         
         return $this -> render('groupe/index.html.twig', [
-            'groupes' => $groupes
+            'groupes' => $groupes,
+            'messages' => $messages
         ]);
     }
 
