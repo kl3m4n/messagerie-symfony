@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Groupe;
 use App\Entity\Message;
+use App\Form\GroupeType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -30,12 +31,26 @@ class GroupeController extends AbstractController
         // $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
         // $groupes = $repo -> findAll();
 
-        $rep = $this->getDoctrine()->getRepository(User::class);
-        $id = $this->getUser()->getId();
+        $rep = $this -> getDoctrine() -> getRepository(User::class);
+        $id = $this -> getUser() -> getId();
         $groupes = $rep -> find($id) -> getGroupes();
         
         return $this -> render('groupe/index.html.twig', [
             'groupes' => $groupes
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="new")
+     */
+    public function new() {
+
+        $grp = new Groupe();
+
+        $form = $this -> createForm(GroupeType::class, $grp);
+
+        return $this -> render('groupe/new.html.twig',[
+            'form' => $form -> createView()
         ]);
     }
 }
