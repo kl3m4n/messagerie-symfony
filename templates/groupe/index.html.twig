@@ -24,23 +24,26 @@
 					</div>
 
 					<div class="inbox_chat">
-						{% for groupe in groupes %}
-							<div class="chat_list">
-								<div class="chat_people">
-									<div class="chat_img">
-										<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-									</div>
-									<div class="chat_ib">
-										<h5>{{groupe.name}}
-											<span class="chat_date">
-                                                {{ groupe.date|date("F jS \\a\\t g:ia") }}
-                                            </span>
-										</h5>
-										<p>Test, which is a new approach to have all solutions 
-											                    astrology under one roof.</p>
-									</div>
-								</div>
-							</div>
+						{% for grp in groupes %}
+                            <a href="{{ path('groupes', {'id': grp.id }) }}">
+                                <div class="chat_list">
+                                    <div class="chat_people">
+                                        <div class="chat_img">
+                                            <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                        </div>
+                                        <div class="chat_ib">
+                                            <h5>{{grp.name}}
+                                                <span class="chat_date">
+                                                    {{ grp.date|date("F jS \\a\\t g:ia") }}
+                                                </span>
+                                            </h5>
+                                            <p>
+                                                {{ messages|last }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
 						{% endfor %}
 					</div>
 				</div>
@@ -49,8 +52,6 @@
 					<div class="msg_history">
 
                         {% for msg in messages %}
-                        {# {{ msg.user.id }}
-                        {{ }} #}
                             {% if msg.user.id == app.user.id %}
                             <div class="outgoing_msg">
                                 <div class="sent_msg">

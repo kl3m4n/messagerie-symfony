@@ -16,15 +16,15 @@ class GroupeController extends AbstractController
      */
     public function groupe($id = 6) {
 
+        // Get all messages
         $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
         $messages = $repo -> find($id) -> getMessages();
 
-        // dd($messages);
+        // Get all groupes of connected user
+        $userId = $this -> getUser() -> getId();
+        $repo = $this -> getDoctrine() -> getRepository(User::class);
+        $groupes = $repo -> find($userId) -> getGroupes();
 
-        $rep = $this -> getDoctrine() -> getRepository(User::class);
-        $iid = $this -> getUser() -> getId();
-        $groupes = $rep -> find($iid) -> getGroupes();
-        
         return $this -> render('groupe/index.html.twig', [
             'groupes' => $groupes,
             'messages' => $messages
