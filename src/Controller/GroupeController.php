@@ -2,39 +2,36 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Groupe;
 use App\Entity\Message;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GroupeController extends AbstractController
 {
     /**
-     * @Route("/groupe", name="groupe")
+     * @Route("/groupe/{id}", name="groupe")
      */
-    public function index()
+    public function groupe($id = '3')
     {
         $repo = $this -> getDoctrine() -> getRepository(Message::class);
-        $messages = $repo -> findAll();
+        $messages = $repo -> findBy(['groupe' => $id]);
 
 
-        return $this->render('groupe/index.html.twig', [
+        return $this -> render('groupe/groupe.html.twig', [
             'messages' => $messages
         ]);
     }
 
-    // public function post($id) {
-    //         //1: Récupérer les données (infos, commentaire)
-    //         $repo = $this -> getDoctrine() -> getRepository(Post::class);
-    //         $post = $repo -> find($id);
+    /**
+     * @Route("/groupes", name="groupes")
+     */
+    public function groupes() {
+        $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
+        $groupes = $repo -> findAll();
 
-
-    //         $manager = $this -> getDoctrine() -> getManager();
-    //         $post = $manager -> find(Post::class,$id);
-
-
-
-    //         //2 : Afficher la vue (avec les data transmises)
-    //         return $this -> render('post/show.html.twig',['id' => $id]);
-
-    // }
+        return $this -> render('groupe/index.html.twig', [
+            'groupes' => $groupes
+        ]);
+    }
 }

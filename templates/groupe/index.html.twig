@@ -10,10 +10,18 @@
 
 <div class="example-wrapper">
 
-    {# {{ messages }} #}
+    {{ app.user.username }}
 
-    {% for msg in messages %}
-        {{ msg.content }}       
-    {% endfor %}
+
+    <ul>
+        {% for grp in groupes %}
+            <li>
+                <a href="{{ path('groupe', { 'id': grp.id  }) }}">
+                    {{ grp.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
 </div>
 {% endblock %}
