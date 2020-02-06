@@ -49,39 +49,40 @@
 					<div class="msg_history">
 
                         {% for msg in messages %}
-
-                        {% if msg.user.id == app.user.id %}
-                        <div class="outgoing_msg">
-                        {% else %}
-						<div class="incoming_msg">
-                        {% endif %}
-							<div class="incoming_msg_img">
-								<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-							</div>
-							<div class="received_msg">
-								<div class="received_withd_msg">
-									<p>
+                        {# {{ msg.user.id }}
+                        {{ }} #}
+                            {% if msg.user.id == app.user.id %}
+                            <div class="outgoing_msg">
+                                <div class="sent_msg">
+                                    <p>
                                         {{ msg.content }}
                                     </p>
-                                    
-									<span class="time_date">
-										{{ msg.date|date("F jS \\a\\t g:ia") }}
+
+                                    <span class="time_date">
+                                        {{ msg.date|date("F jS \\a\\t g:ia") }}
                                     </span>
-								</div>
-							</div>
-						</div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="incoming_msg">
+                                <div class="incoming_msg_img">
+                                    <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                </div>
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+                                        <p>
+                                            {{ msg.content }}
+                                        </p>
+
+                                        <span class="time_date">
+                                            {{ msg.date|date("F jS \\a\\t g:ia") }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
 
                         {% endfor %}
-
-
-						<div class="outgoing_msg">
-							<div class="sent_msg">
-								<p>Test which is a new approach to have all
-									                  solutions</p>
-								<span class="time_date">
-									11:01 AM    |    June 9</span>
-							</div>
-						</div>
 					</div>
 					<div class="type_msg">
 						<div class="input_msg_write">
