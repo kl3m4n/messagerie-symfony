@@ -1,25 +1,48 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-
-    <h1>Inscription</h1>
-
     {{ form_start(form) }}
-    
-    {{ 
-        form_row(form.username, {
-                    'label': 'Nom d\'utilisateur', 
-                    'attr': {'placeholder': 'Nom d\'utilisateur'}
-                }) 
-    }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.password) }}
+        <div id="login" class="mt-4>
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
+                            <form id="login-form" class="form" action="" method="post">
+                                <h3 class="text-center text-info">Inscription</h3>
+                                <div class="form-group">
+                                    {{ form_label(form.username, 'Nom d\'utilisateur', {'label_attr': {'class': 'text-info'}}) }}
+                                    {{ form_widget(form.username, {'attr': {'placeholder': 'Nom d\'utilisateur..', 'class':'form-control'}}) }}
+                                    {{ form_errors(form.username) }}
+                                </div>
+                                <div class="form-group">        
+                                    {{ form_label(form.email, 'Email', {'label_attr': {'class': 'text-info'}}) }}
+                                    {{ form_widget(form.email, {'attr': {'placeholder': 'Email..', 'class':'form-control'}}) }}
+                                    {{ form_errors(form.email) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(form.password, 'Mot de passe', {'label_attr': {'class': 'text-info'}}) }}
+                                    {{ form_widget(form.password, {'attr': {'placeholder': 'Mot de passe..', 'class':'form-control'}}) }}
+                                    {{ form_errors(form.password) }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="photo" class="text-info">Photo :</label><br>
+                                    <input type="file" name="photo" id="photo" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" name="submit" class="btn btn-info btn-md" value="S'inscrire">
+                                </div>
+                                <div id="Login" class="text-right">
+                                    <a href="{{ path('login') }}" class="text-info">Vous avez déjà un compte ?</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
 
-    <button type="submit">Submit</button>
-
-    {{ form_end(form) }}
-
-
-
-
+{% block javascript%}
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}

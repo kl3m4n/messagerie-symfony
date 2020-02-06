@@ -1,16 +1,39 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+	<br><br>
+	<form action="{{ path('login') }}" method="POST">
+		<div id="login">
+			<div class="container">
+				<div id="login-row" class="row justify-content-center align-items-center">
+					<div id="login-column" class="col-md-6">
+						<div id="login-box" class="col-md-12">
+							<form id="login-form" class="form" action="" method="post">
+								<h3 class="text-center text-info">Connexion</h3>
+								<div class="form-group">
+									<label for="username" for="username" class="text-info">Nom d'utilisateur :</label><br>
+									<input type="text" placeholder="Nom d'utilisateur" required id="username" name="_username" class="form-control">
+								</div>
+								<div class="form-group">
+									<label for="password" for="password" class="text-info">Mot de passe :</label><br>
+									<input type="password" placeholder="Mot de passe" required id="password" name="_password" class="form-control">
+								</div>
+								<div class="form-group">
+									<input type="submit" name="submit" class="btn btn-info btn-md" value="Connexion">
+								</div>
+								<div id="register-link" class="text-right">
+									<a href="{{ path('register') }}" class="text-info">S'inscrire</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+{% endblock %}
 
-	<h1>Login</h1>
-
-
-    <form action="{{ path('login') }}" method="POST">
-        <input type="text" placeholder="Username" required name="_username">
-        <input type="password" placeholder="Mot de passe" required name="_password">
-
-        <button type="submit">Connexion</button>
-    </form>
-
-
+{% block javascript%}
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}
