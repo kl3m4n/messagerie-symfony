@@ -6,7 +6,7 @@ use App\Entity\Groupe;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class GroupeType extends AbstractType
 {
@@ -14,14 +14,7 @@ class GroupeType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('img')
-            ->add('date', HiddenType::class, [
-                'empty_data' => new \DateTime('now')
-            ])
-            // ->add('users', HiddenType::class, [
-            //     'empty_data' => $this -> getUser()
-            // ])
-            // ->add('user_p')
+            ->add('create', SubmitType::class)
         ;
     }
 

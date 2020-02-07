@@ -11,6 +11,15 @@
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
+		<div class="container mt-2">
+			{% for label, messages in app.session.flashbag.all %}
+				{% for msg in messages %}
+					<div class="alert alert-{{ label }}" role="alert">
+						{{ msg }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+		</div>
 		{% block body %}{% endblock %}
 		{% block javascripts %}{% endblock %}
 		{% block style %}{% endblock %}

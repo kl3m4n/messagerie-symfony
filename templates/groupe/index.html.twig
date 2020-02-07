@@ -3,6 +3,7 @@
 {% block body %}
 	<div class="container">
 		<br>
+		{% if access %}
 		<div class="messaging">
 			<div class="inbox_msg">
 				<div class="inbox_people">
@@ -101,6 +102,11 @@
 				</div>
 			</div>
 		</div>
+		{% else %}
+			<div>
+				<H3 class="text-center">Vous n'avez pas le droit d'accéder à cette conversation</H3>
+			</div>
+		{% endif %}
 	</div>
 {% endblock %}
 {% block javascript %}
