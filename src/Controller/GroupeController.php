@@ -35,47 +35,54 @@ class GroupeController extends AbstractController
             $userGranted = $groupe -> getUsers();
             $userP = $groupe -> getUserP();
 
-            foreach ($userGranted as $usr) {
-                $usrId = $usr -> getId();
-                if ($usrId == $id || $this -> getUser() == $userP) {
-                    // Get all groupes of connected user
-                    $userId = $this -> getUser() -> getId();
-                    $repo = $this -> getDoctrine() -> getRepository(User::class);
-                    $groupes = $repo -> find($userId) -> getGroupes();
-            
-                    // Message form
-                    $msg = new Message();
-                    $msg -> setUser($this -> getUser());
-                    $msg -> setDate(new \DateTime('now'));
-                    $msg -> setGroupe($groupe);
-                    $msg -> setState(1);
-            
-                    // Create form
-                    $formMessage = $this -> createForm(MessageType::class, $msg);
-            
-                    $formMessage -> handleRequest($req);
-            
-                    if($formMessage -> isSubmitted() && $formMessage -> isValid()) {
-            
-                        // Persist on base
-                        $this -> entityManager -> persist($msg);
-                        $this -> entityManager -> flush();
-            
-                        return $this -> redirect($req->getUri());
-                    }
-            
-                    return $this -> render('groupe/index.html.twig', [
-                        'access' => true,
-                        'groupes' => $groupes,
-                        'messages' => $messages,
-                        'formMessage' => $formMessage -> createView()
-                    ]);
-                } else {
-                    $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
-                    return $this -> render('groupe/index.html.twig', [
-                        'access' => false
-                    ]);
+            $userId = $this -> getUser() -> getId();
+            $repo = $this -> getDoctrine() -> getRepository(User::class);
+            $groupes = $repo -> find($userId) -> getGroupes();
+
+            $grpId = [];
+            foreach ($groupes as $grp) {
+                array_push($grpId, $grp -> getId());
+            }
+
+
+            if (in_array($id, $grpId)) {
+                // Get all groupes of connected user
+                $userId = $this -> getUser() -> getId();
+                $repo = $this -> getDoctrine() -> getRepository(User::class);
+                $groupes = $repo -> find($userId) -> getGroupes();
+        
+                // Message form
+                $msg = new Message();
+                $msg -> setUser($this -> getUser());
+                $msg -> setDate(new \DateTime('now'));
+                $msg -> setGroupe($groupe);
+                $msg -> setState(1);
+        
+                // Create form
+                $formMessage = $this -> createForm(MessageType::class, $msg);
+        
+                $formMessage -> handleRequest($req);
+        
+                if($formMessage -> isSubmitted() && $formMessage -> isValid()) {
+        
+                    // Persist on base
+                    $this -> entityManager -> persist($msg);
+                    $this -> entityManager -> flush();
+        
+                    return $this -> redirect($req->getUri());
                 }
+        
+                return $this -> render('groupe/index.html.twig', [
+                    'access' => true,
+                    'groupes' => $groupes,
+                    'messages' => $messages,
+                    'formMessage' => $formMessage -> createView()
+                ]);
+            } else {
+                $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
+                return $this -> render('groupe/index.html.twig', [
+                    'access' => false
+                ]);
             }
         } else {
             $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
