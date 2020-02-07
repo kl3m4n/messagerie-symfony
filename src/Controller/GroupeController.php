@@ -61,6 +61,7 @@ class GroupeController extends AbstractController
                         $this -> entityManager -> persist($msg);
                         $this -> entityManager -> flush();
             
+                        return $this -> redirect($req->getUri());
                     }
             
                     return $this -> render('groupe/index.html.twig', [
