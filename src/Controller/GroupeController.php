@@ -38,11 +38,6 @@ class GroupeController extends AbstractController
         return $this -> redirectToRoute('groupe', array(
             'id' => $lastMessageId
         ));
-
-        // $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
-        // return $this -> render('groupe/index.html.twig', [
-        //     'access' => false
-        // ]);
     }
 
     /**

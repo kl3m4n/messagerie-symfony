@@ -51,13 +51,23 @@ class SecurityController extends AbstractController
 
         $form -> handleRequest($req);
 
-        if($form -> isSubmitted() && $form -> isValid()) {
+        if($form -> isSubmitted()) {
             $hash = $encoder -> encodePassword($user, $user -> getPassword());
+            $this -> entityManager -> persist($user);
 
             $user -> setPassword($hash);
 
-            $this -> entityManager -> persist($user);
+            $img = $user -> getFile();
+            // dd($img);
+            $imgName = md5(uniqid()) . '.' . $img -> guessExtension();
+            $img -> move($this -> getParameter('upload_directory'), $imgName);
+            $user -> setImg($imgName);
+
             $this -> entityManager -> flush();
+
+            $this -> addFlash('success', 'Félicitation, vous êtes désormais inscrit');
+            $this -> redirectToRoute('login');
+            // dd('Frr t\'abuse');
         }
 
         return $this -> render('security/registration.html.twig', [
