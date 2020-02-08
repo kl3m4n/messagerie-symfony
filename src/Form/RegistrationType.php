@@ -17,8 +17,10 @@ class RegistrationType extends AbstractType
             ->add('username')
             ->add('password', PasswordType::class)
             ->add('email')
-            ->add('img', HiddenType::class, [
-                'data' => 'default.jpg'
+            ->add('file', FileType::class, [
+                'label' => 'Choisissez une photo'
+            ])
+            ->add('submit', SubmitType::class, [
             ])
         ;
     }
