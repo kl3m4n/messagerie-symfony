@@ -16,40 +16,62 @@ class GroupeController extends AbstractController
 {
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
     }
 
     /**
-     * @Route("/groupe/{id}", name="groupes")
+     * @Route("/", name="default")
+     */
+    public function redirectToGroup() {
+
+        $repo = $this -> getDoctrine() -> getRepository(User::class);
+        $user = $this -> getUser();
+
+        // Get lastest message id
+        $grpsId = array(); 
+        foreach ($user -> getMessages() as $key => $msg) {
+            array_push($grpsId, $msg -> getGroupe() -> getId());
+        }
+        $lastMessageId = end($grpsId);
+
+        return $this -> redirectToRoute('groupe', array(
+            'id' => $lastMessageId
+        ));
+
+        // $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
+        // return $this -> render('groupe/index.html.twig', [
+        //     'access' => false
+        // ]);
+    }
+
+    /**
+     * @Route("/groupe/{id}", name="groupe")
      */
     public function groupe(Request $req, int $id) {
-        // Get all messages
-        $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
-        $groupe = $repo -> find($id);
-        if ($groupe != null) {
 
+        $repo = $this -> getDoctrine() -> getRepository(Groupe::class);
+        // Get groupe
+        $groupe = $repo -> find($id);
+
+        if ($groupe != null) {
+            
+            // Get all messages
             $messages = $groupe -> getMessages();
 
-            $userGranted = $groupe -> getUsers();
-            $userP = $groupe -> getUserP();
-
+            // Get user id
             $userId = $this -> getUser() -> getId();
+
             $repo = $this -> getDoctrine() -> getRepository(User::class);
             $groupes = $repo -> find($userId) -> getGroupes();
 
-            $grpId = [];
+            $grpsId = [];
             foreach ($groupes as $grp) {
-                array_push($grpId, $grp -> getId());
+                array_push($grpsId, $grp -> getId());
             }
 
 
-            if (in_array($id, $grpId)) {
-                // Get all groupes of connected user
-                $userId = $this -> getUser() -> getId();
-                $repo = $this -> getDoctrine() -> getRepository(User::class);
-                $groupes = $repo -> find($userId) -> getGroupes();
+            if (in_array($id, $grpsId)) {
         
                 // Message form
                 $msg = new Message();
@@ -78,26 +100,13 @@ class GroupeController extends AbstractController
                     'messages' => $messages,
                     'formMessage' => $formMessage -> createView()
                 ]);
-            } else {
-                $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
-                return $this -> render('groupe/index.html.twig', [
-                    'access' => false
-                ]);
-            }
-        } else {
-            $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
-            return $this -> render('groupe/index.html.twig', [
-                'access' => false
-            ]);
-        }
+            } 
+        } 
+        $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
+        return $this -> render('groupe/index.html.twig', [
+            'access' => false
+        ]);
     }
-
-    // public function accessDenied() {
-    //     $this -> addFlash('danger', 'Vous n\'avez pas le droit d\'accéder à cette conversation');
-    //     return $this -> render('groupe/index.html.twig', [
-    //         'access' => false
-    //     ]);
-    // }
 
     /**
      * @Route("/new", name="new")

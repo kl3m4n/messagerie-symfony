@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Vos messages{% endblock %}
+
 {% block body %}
 	<div class="container">
 		<br>
@@ -26,7 +28,7 @@
 
 					<div class="inbox_chat">
 						{% for grp in groupes %}
-                            <a href="{{ path('groupes', {'id': grp.id }) }}">
+                            <a href="{{ path('groupe', {'id': grp.id }) }}">
                                 <div class="chat_list">
                                     <div class="chat_people">
                                         <div class="chat_img">
