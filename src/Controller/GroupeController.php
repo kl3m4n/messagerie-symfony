@@ -93,7 +93,8 @@ class GroupeController extends AbstractController
                     'access' => true,
                     'groupes' => $groupes,
                     'messages' => $messages,
-                    'formMessage' => $formMessage -> createView()
+                    'formMessage' => $formMessage -> createView(),
+                    'assets' => $_SERVER["DOCUMENT_ROOT"] . '/assets/'
                 ]);
             } 
         } 
@@ -108,31 +109,41 @@ class GroupeController extends AbstractController
      */
     public function new(Request $req) {
 
-                // Get all groupes of connected user
-        $userId = $this -> getUser() -> getId();
-        $repo = $this -> getDoctrine() -> getRepository(User::class);
-        $users = $repo -> findAll();
+        // // Get all groupes of connected user
+        // $userId = $this -> getUser() -> getId();
+        // $repo = $this -> getDoctrine() -> getRepository(User::class);
+        // $users = $repo -> findAll();
 
         $grp = new Groupe();
-        $grp -> setImg('default.png');
-        $grp -> setDate(new \DateTime('now'));
-        $grp -> setUserP($this -> getUSer());
 
-        foreach ($users as $usr) {
-            $grp -> addUser($usr);
-        }
+        $grp -> setDate(new \DateTime('now'));
+        $grp -> setUserP($this -> getUser());
+        $grp -> setImg('default.png');
         
+        // dd($users);
+        // foreach ($users as $usr) {
+            //     $grp -> addUser($usr);
+            // }
+            
         // Create form
         $form = $this -> createForm(GroupeType::class, $grp);
-
+        
         $form -> handleRequest($req);
-
+        
         if($form -> isSubmitted() && $form -> isValid()) {
-
-            // Persist on base
             $this -> entityManager -> persist($grp);
+            
+            $img = $grp -> getFile();
+            // dd($img);
+            $imgName = md5(uniqid()) . '.' . $img -> guessExtension();
+            $img -> move($this -> getParameter('upload_directory'), $imgName);
+            $grp -> setImg($imgName);
+
+            // Push on base
             $this -> entityManager -> flush();
 
+            $this -> addFlash('success', 'Le groupe à été créé correctement');
+            $this -> redirectToRoute('/');
         }
 
         return $this -> render('groupe/new.html.twig',[

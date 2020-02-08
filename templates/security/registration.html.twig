@@ -25,11 +25,12 @@
                                     {{ form_errors(form.password) }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="photo" class="text-info">Photo :</label><br>
-                                    <input type="file" name="photo" id="photo" class="form-control">
+                                    {{ form_label(form.file, 'Photo de profile', {'label_attr': {'class': 'text-info'}}) }}
+                                    {{ form_widget(form.file, {'attr': {'placeholder': 'Image', 'class':'form-control'}}) }}
+                                    {{ form_errors(form.file) }}
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" name="submit" class="btn btn-info btn-md" value="S'inscrire">
+                                    {{ form_widget(form.submit, {'attr': {'class':'form-control'}}) }}
                                 </div>
                                 <div id="Login" class="text-right">
                                     <a href="{{ path('login') }}" class="text-info">Vous avez déjà un compte ?</a>

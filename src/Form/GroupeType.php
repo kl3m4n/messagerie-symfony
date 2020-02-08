@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class GroupeType extends AbstractType
@@ -22,6 +23,7 @@ class GroupeType extends AbstractType
                 'multiple' => true,
                 'expanded' => true
             ])
+            ->add('file', FileType::class)
             ->add('create', SubmitType::class)
         ;
     }

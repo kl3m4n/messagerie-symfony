@@ -223,5 +223,4 @@ class User implements UserInterface
     public function getFile(){
         return $this -> file;
     }
-
 }
