@@ -34,13 +34,24 @@ class GroupeController extends AbstractController
             array_push($grpsId, $msg -> getGroupe() -> getId());
         }
 
-        if ($grpsId == null) {
-            $this -> addFlash('danger', 'Vous n\'avez aucun groupe');
-            return $this -> redirectToRoute('new');
-        } else {
-            $lastId = end($grpsId);
+        // dd($grpsId);
+
+        // If there is no message, get the last group
+        if ($grpsId == []) {
+            foreach ($user -> getGroupes() as $grp) {
+                array_push($grpsId, $grp -> getId());
+            }
+            if ($grpsId == []) {
+                $this -> addFlash('danger', 'Vous n\'avez aucun groupe, saisissez l\'occasion');
+                return $this -> redirectToRoute('new');
+            } else {
+                $lastId = end($grpsId);
+            }
         }
 
+        $lastId = end($grpsId);
+
+        // dd($user -> getGroupes());
         return $this -> redirectToRoute('groupe', array(
             'id' => $lastId
         ));
@@ -127,12 +138,17 @@ class GroupeController extends AbstractController
         
         if($form -> isSubmitted()) {
             $this -> entityManager -> persist($grp);
-            
-            $img = $grp -> getFile();
-            // dd($img);
-            $imgName = md5(uniqid()) . '.' . $img -> guessExtension();
-            $img -> move($this -> getParameter('upload_directory'), $imgName);
-            $grp -> setImg($imgName);
+
+            // If no file set default img
+            if ($grp -> getFile() != null) {
+                $img = $grp -> getFile();
+
+                $imgName = md5(uniqid()) . '.' . $img -> guessExtension();
+                $img -> move($this -> getParameter('upload_directory'), $imgName);
+                $grp -> setImg($imgName);
+            } else {
+                $grp -> setImg('default.png');
+            }
 
             // Push on base
             $this -> entityManager -> flush();

@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
 
+{% block title %}Inscription{% endblock %}
+
 {% block body %}
     {{ form_start(form) }}
         <div id="login" class="mt-4>
@@ -41,9 +43,4 @@
                 </div>
             </div>
         </div>
-{% endblock %}
-
-{% block javascript%}
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}

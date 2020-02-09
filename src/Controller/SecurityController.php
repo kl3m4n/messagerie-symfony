@@ -57,16 +57,21 @@ class SecurityController extends AbstractController
 
             $user -> setPassword($hash);
 
-            $img = $user -> getFile();
-            // dd($img);
-            $imgName = md5(uniqid()) . '.' . $img -> guessExtension();
-            $img -> move($this -> getParameter('upload_directory'), $imgName);
-            $user -> setImg($imgName);
+            // If no file set default img
+            if ($user -> getFile() != null) {
+                $img = $user -> getFile();
+                // dd($img);
+                $imgName = md5(uniqid()) . '.' . $img -> guessExtension();
+                $img -> move($this -> getParameter('upload_directory'), $imgName);
+                $user -> setImg($imgName);
+            } else {
+                $user -> setImg('default.png');
+            }
 
             $this -> entityManager -> flush();
 
             $this -> addFlash('success', 'Félicitation, vous êtes désormais inscrit');
-            $this -> redirectToRoute('login');
+            return $this -> redirectToRoute('login');
             // dd('Frr t\'abuse');
         }
 
@@ -81,5 +86,7 @@ class SecurityController extends AbstractController
     public function logout()
     {
         throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall');
+        $this -> addFlash('succes', 'Vous êtes déconnecté');
+        return $this -> redirectToRoute('login');
     }
 }

@@ -11,6 +11,32 @@
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="{{path('default') }}">Messagerie</a>
+
+		<div class="collapse navbar-collapse">
+			<ul class="navbar-nav mr-auto">
+			{% if app.user %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('default') }}">Conversations</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('new') }}">Nouveau groupe</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('login') }}">Connexion</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('register') }}">Inscription</a>
+				</li>
+			{% endif %}
+			</ul>
+		</div>
+	</nav>
 		<div class="container mt-2">
 			{% for label, messages in app.session.flashbag.all %}
 				{% for msg in messages %}
@@ -21,7 +47,9 @@
 			{% endfor %}
 		</div>
 		{% block body %}{% endblock %}
-		{% block javascripts %}{% endblock %}
 		{% block style %}{% endblock %}
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		{% block javascripts %}{% endblock %}
 	</body>
 </html>

@@ -10,24 +10,15 @@
 			<div class="inbox_msg">
 				<div class="inbox_people">
 					<div class="headind_srch">
-						<div class="recent_heading  w-100">
-							<h3>
+						<div class="recent_heading">
+							<h3 class="py-2">
                                 Messages
 							</h3>
-                            <div class="icon float-right">
-                                <a class="nounderline" href="{{ path('new') }}">
-                                    <i class="fas fa-user-plus text-info"></i>
-                                </a>
-                                <a class="nounderline" href="{{ path('logout') }}">
-                                    <span></span>
-                                    <i class="fas fa-sign-out-alt text-info"></i>
-                                </a>
-                            </div>
 						</div>
 					</div>
 
 					<div class="inbox_chat">
-						{% for grp in groupes %}
+						{% for grp in groupes|reverse %}
                             <a href="{{ path('groupe', {'id': grp.id }) }}">
                                 <div class="chat_list">
                                     <div class="chat_people">
@@ -70,7 +61,7 @@
                             {% else %}
                             <div class="incoming_msg">
                                 <div class="incoming_msg_img">
-                                    {# <img src="{{ assets_path ~ app.user.img }}" alt="sunil"> #}
+                                    <img src="{{ asset("img/" ~ msg.user.img) }}" alt="sunil">
                                 </div>
                                 <div class="received_msg">
                                     <div class="received_withd_msg">
