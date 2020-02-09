@@ -30,13 +30,19 @@ class GroupeController extends AbstractController
 
         // Get lastest message id
         $grpsId = array(); 
-        foreach ($user -> getMessages() as $key => $msg) {
+        foreach ($user -> getMessages() as $msg) {
             array_push($grpsId, $msg -> getGroupe() -> getId());
         }
-        $lastMessageId = end($grpsId);
+
+        if ($grpsId == null) {
+            $this -> addFlash('danger', 'Vous n\'avez aucun groupe');
+            return $this -> redirectToRoute('new');
+        } else {
+            $lastId = end($grpsId);
+        }
 
         return $this -> redirectToRoute('groupe', array(
-            'id' => $lastMessageId
+            'id' => $lastId
         ));
     }
 
@@ -86,7 +92,7 @@ class GroupeController extends AbstractController
                     $this -> entityManager -> persist($msg);
                     $this -> entityManager -> flush();
         
-                    return $this -> redirect($req->getUri());
+                    return $this -> redirect($req -> getUri());
                 }
         
                 return $this -> render('groupe/index.html.twig', [
@@ -94,7 +100,6 @@ class GroupeController extends AbstractController
                     'groupes' => $groupes,
                     'messages' => $messages,
                     'formMessage' => $formMessage -> createView(),
-                    'assets' => $_SERVER["DOCUMENT_ROOT"] . '/assets/'
                 ]);
             } 
         } 
@@ -109,28 +114,18 @@ class GroupeController extends AbstractController
      */
     public function new(Request $req) {
 
-        // // Get all groupes of connected user
-        // $userId = $this -> getUser() -> getId();
-        // $repo = $this -> getDoctrine() -> getRepository(User::class);
-        // $users = $repo -> findAll();
-
         $grp = new Groupe();
 
         $grp -> setDate(new \DateTime('now'));
         $grp -> setUserP($this -> getUser());
         $grp -> setImg('default.png');
-        
-        // dd($users);
-        // foreach ($users as $usr) {
-            //     $grp -> addUser($usr);
-            // }
             
         // Create form
         $form = $this -> createForm(GroupeType::class, $grp);
         
         $form -> handleRequest($req);
         
-        if($form -> isSubmitted() && $form -> isValid()) {
+        if($form -> isSubmitted()) {
             $this -> entityManager -> persist($grp);
             
             $img = $grp -> getFile();
@@ -142,8 +137,9 @@ class GroupeController extends AbstractController
             // Push on base
             $this -> entityManager -> flush();
 
+
             $this -> addFlash('success', 'Le groupe à été créé correctement');
-            $this -> redirectToRoute('/');
+            return $this -> redirectToRoute('default');
         }
 
         return $this -> render('groupe/new.html.twig',[

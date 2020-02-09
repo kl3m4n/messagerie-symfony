@@ -1,9 +1,43 @@
-<h1>New</h1>
+{% extends "base.html.twig" %}
 
-{{ form_start(form) }}
+{% block title %}Nouveau groupe{% endblock %}
 
-{{ form_widget(form) }}
+{% block body %}
+    {{ form_start(form) }}
+        <div id="login" class="mt-4>
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
+                            <form id="login-form" class="form" action="" method="post">
+                                <h3 class="text-center text-info">Création de groupe</h3>
+                                <div class="form-group">
+                                    {{ form_label(form.name, 'Nom du groupe', {'label_attr': {'class': 'text-info'}}) }}
+                                    {{ form_widget(form.name, {'attr': {'placeholder': 'Nom du groupe..', 'class':'form-control'}}) }}
+                                    {{ form_errors(form.name) }}
+                                </div>
+                                <div class="form-check p-0">
+                                    {{ form_label(form.users, 'Liste des utilisateurs', {'label_attr': {'class': 'text-info m-0'}}) }}
+                                    {{ form_widget(form.users) }}
+                                    {{ form_errors(form.users) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(form.file, 'Photo de profile', {'label_attr': {'class': 'text-info'}}) }}
+                                    {{ form_widget(form.file, {'attr': {'placeholder': 'Image', 'class':'form-control'}}) }}
+                                    {{ form_errors(form.file) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.submit, {'attr': {'class':'form-control'}}) }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
 
-{# <button type="submit">Créer</button> #}
-
-{{ form_end(form) }}
+{% block javascript%}
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock %}

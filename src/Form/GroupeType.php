@@ -19,12 +19,15 @@ class GroupeType extends AbstractType
             ->add('name')
             ->add('users', EntityType::class, [
                 'class' => User::class,
+                'choice_attr' => function () { return array('class' => 'mx-2'); },
                 'choice_label' => 'username',
                 'multiple' => true,
                 'expanded' => true
             ])
             ->add('file', FileType::class)
-            ->add('create', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Créer'
+            ])
         ;
     }
 
