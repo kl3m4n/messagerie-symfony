@@ -38,7 +38,6 @@ php -S localhost:8080 -t public
 
 👤 **Clément RAMOS LAGE**
 
-* Website: clement-rms.fr
 * Github: [@MENT3](https://github.com/MENT3)
 
 👤 **Samy LACOMBE**
