@@ -25,36 +25,40 @@ class GroupeController extends AbstractController
      */
     public function redirectToGroup() {
 
-        $repo = $this -> getDoctrine() -> getRepository(User::class);
-        $user = $this -> getUser();
+        if ($this -> getuser()) {
+            $repo = $this -> getDoctrine() -> getRepository(User::class);
+            $user = $this -> getUser();
 
-        // Get lastest message id
-        $grpsId = array(); 
-        foreach ($user -> getMessages() as $msg) {
-            array_push($grpsId, $msg -> getGroupe() -> getId());
-        }
-
-        // dd($grpsId);
-
-        // If there is no message, get the last group
-        if ($grpsId == []) {
-            foreach ($user -> getGroupes() as $grp) {
-                array_push($grpsId, $grp -> getId());
+            // Get lastest message id
+            $grpsId = array(); 
+            foreach ($user -> getMessages() as $msg) {
+                array_push($grpsId, $msg -> getGroupe() -> getId());
             }
+
+            // dd($grpsId);
+
+            // If there is no message, get the last group
             if ($grpsId == []) {
-                $this -> addFlash('danger', 'Vous n\'avez aucun groupe, saisissez l\'occasion');
-                return $this -> redirectToRoute('new');
-            } else {
-                $lastId = end($grpsId);
+                foreach ($user -> getGroupes() as $grp) {
+                    array_push($grpsId, $grp -> getId());
+                }
+                if ($grpsId == []) {
+                    $this -> addFlash('danger', 'Vous n\'avez aucun groupe, saisissez l\'occasion');
+                    return $this -> redirectToRoute('new');
+                } else {
+                    $lastId = end($grpsId);
+                }
             }
+
+            $lastId = end($grpsId);
+
+            // dd($user -> getGroupes());
+            return $this -> redirectToRoute('groupe', array(
+                'id' => $lastId
+            ));
+        } else {
+            return $this -> redirectToRoute('login');
         }
-
-        $lastId = end($grpsId);
-
-        // dd($user -> getGroupes());
-        return $this -> redirectToRoute('groupe', array(
-            'id' => $lastId
-        ));
     }
 
     /**

@@ -26,6 +26,10 @@ class User implements UserInterface
     private $username;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+    /**
      * @ORM\Column(type="string")
      */
     private $roles = 'ROLE_USER';
@@ -51,11 +55,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="user")
      */
     private $messages;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
 
     public function __construct()
     {

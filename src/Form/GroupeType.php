@@ -24,7 +24,9 @@ class GroupeType extends AbstractType
                 'multiple' => true,
                 'expanded' => true
             ])
-            ->add('file', FileType::class)
+            ->add('file', FileType::class, [
+                'required' => false
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer'
             ])

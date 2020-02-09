@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class RegistrationType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,7 +19,8 @@ class RegistrationType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('email')
             ->add('file', FileType::class, [
-                'label' => 'Choisissez une photo'
+                'label' => 'Choisissez une photo',
+                'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire'
